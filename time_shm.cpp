@@ -1,22 +1,15 @@
 /*********************************************************************************************
- *               Simple Speed Test                                                            *
+ *               Shared memory object                                                         *
  *   Author(s):                                                                               *
  *       Joshua Land, Simon Lariz, Jesus Contreras, Quan Duong                                *
  *                                                                                            *
- *  Description: Simple Command Speed Test will run a command and messure the time it takes   *
- *                   to run it.                                                               *
+ *  Description: This class will be our shared memory object, so that our processes can       *
+ *                   comminucate with each other                                              *
  *  See the read me for further information.                                                  *
  *********************************************************************************************/
 
-// our includes
 
-#include <iostream>
-
-// end includes
-
-
-int main( int argc, char** argv )
+class TimeShm 
 {
-
-    return 0;
-}
+    private:
+};
