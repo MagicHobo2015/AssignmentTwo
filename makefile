@@ -1,5 +1,8 @@
-build: time.cpp
-	clang++ -std=c++17 time.cpp -o time
+# this will compile time.cpp to a file named timeShm
+build: time_shm.cpp
+	clang++ -std=c++17 time_shm.cpp -o timeShm.exe
 
-clean: time
-	rm ./time
+
+
+clean: timeShm.exe
+	rm ./time_shm time
