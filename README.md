@@ -70,12 +70,12 @@ assigned the struct timeval representing the starting time. When pipes are used,
 struct timeval can be written to - and read from - the pipe.
 
 
-2. **gcc time_shm.c -otime -lrt is an example command to compile and link your program**
+2. ```gcc time_shm.c -otime -lrt``` is an example command to compile and link your program**
 
 
-3. **./time ls -l | tee time_shm_output.txt** is an example command to run your program 
+3. ```./time ls -l | tee time_shm_output.txt``` is an example command to run your program 
 while collecting your program’s output to a text file and seeing the output on the console.
 Submit (only) the following 4 files to TITANium.
 
-time_shm.c,  time_shm_output.txt  (both  files  must  be  present  to  earn  credit) 
-time_pipe.c, time_pipe_output.txt (both files must be present to earn credit)
+**time_shm.c,  time_shm_output.txt**  (both  files  must  be  present  to  earn  credit) 
+**time_pipe.c, time_pipe_output.txt** (both files must be present to earn credit)
