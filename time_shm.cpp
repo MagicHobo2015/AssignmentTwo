@@ -17,7 +17,13 @@ is forked, allowing both the parent and child processes access to the region of 
 */
 
 // our includes
+#include <fcntl.h>
 #include <iostream>
+#include <stdlib.h>
+#include <string>
+#include <sys/mman.h>
+#include <sys/shm.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -25,6 +31,7 @@ is forked, allowing both the parent and child processes access to the region of 
 
 // ProtoTypes
 char* stripCommand(char** argv);
+void* createSharedMem(size_t memSize);
 // End Proto
 
 int main( int argc, char** argv )
@@ -32,9 +39,23 @@ int main( int argc, char** argv )
     // Variables
     char* command = nullptr;
     pid_t childID;
+    std::string test = "Hello World!";
+    // shared mem stuff
+    const int SIZE = 4096;
+    const char* NAME = "mem";
+    int fd;
+    char* ptr = nullptr;
+    // /memStuff
     // End Variables
 
-    // first start a child process
+    // Create some shared memory
+    fd = shm_open(NAME, O_CREAT | O_RDWR, 0666);
+    // fix the size
+    ftruncate(fd, SIZE);
+    // map the memObject
+    ptr = (char*) mmap(0, SIZE, PROT_WRITE, MAP_SHARED, fd, 0);
+
+    // start a child process
     childID = fork();
 
     // make sure child is created
@@ -45,13 +66,14 @@ int main( int argc, char** argv )
 
     } else if ( childID == 0 ) {
         // In the child process here
-
-            // this is for debugging ********************************* TODO: remove
-        std::cout << "the child proc: " << childID << std::endl;
-        // ***************************************************** END REMOVE
+        // test the shared memory
+        sprintf(ptr, "Hello World!");
 
     } else {
         // this pid could only be the parent
+        // now wait for child to do its thing
+        wait(NULL);
+        printf("Parent gets: %s\n", ptr);
 
             // this is for debugging ********************************* TODO: remove
         std::cout << "else block: " << childID << std::endl;
@@ -64,3 +86,9 @@ int main( int argc, char** argv )
 }
 // this will return just the command.
 char* stripCommand(char** argv) { return nullptr; }
+
+// makes shared mem the size of
+void* createSharedMem(size_t memSize) 
+{
+    return NULL;
+}
