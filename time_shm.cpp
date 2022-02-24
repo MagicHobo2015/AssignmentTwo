@@ -33,18 +33,21 @@ is forked, allowing both the parent and child processes access to the region of 
 char* stripCommand(char** argv);
 void* createSharedMem(size_t memSize);
 // End Proto
+static time_t* startTime = NULL;
 
 int main( int argc, char** argv )
 {
     // Variables
     char* command = nullptr;
     pid_t childID;
+    time_t t = NULL;
+    time_t endTime = NULL;
+    time_t totalTime = NULL;
     std::string test = "Hello World!";
     // shared mem stuff
     const int SIZE = 4096;
     const char* NAME = "mem";
     int fd;
-    char* ptr = nullptr;
     // /memStuff
     // End Variables
 
@@ -53,7 +56,7 @@ int main( int argc, char** argv )
     // fix the size
     ftruncate(fd, SIZE);
     // map the memObject
-    ptr = (char*) mmap(0, SIZE, PROT_WRITE, MAP_SHARED, fd, 0);
+    startTime = (time_t*)mmap(0, SIZE, PROT_WRITE | PROT_READ, MAP_SHARED, fd, 0);
 
     // start a child process
     childID = fork();
@@ -66,22 +69,28 @@ int main( int argc, char** argv )
 
     } else if ( childID == 0 ) {
         // In the child process here
+        // timestamp
+        *startTime = time(NULL);
+        sleep(.5);
+        std::cout << *startTime << std::endl;
         // test the shared memory
-        sprintf(ptr, "Hello World!");
+
 
     } else {
         // this pid could only be the parent
         // now wait for child to do its thing
         wait(NULL);
-        printf("Parent gets: %s\n", ptr);
-
-            // this is for debugging ********************************* TODO: remove
-        std::cout << "else block: " << childID << std::endl;
-        // ***************************************************** END REMOVE
-
+        // grab endtime
+        endTime = time(NULL);
+        // get the shared mem
+        t = *startTime;
+        // unmap the mem
+        munmap(startTime, sizeof SIZE);
+        // end - begin is the time it took in ms?.
+        totalTime = endTime - t;
+        // this just prints whats in the shared mem
+        std::cout << totalTime << std::endl;
     }
-
-    // 
     return 0;
 }
 // this will return just the command.
