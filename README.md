@@ -1,6 +1,6 @@
 # Welcome to our timer 
 **To compile:**
-    make build
+    make timeShm
     
 
 
