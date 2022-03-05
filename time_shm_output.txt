@@ -1,0 +1,6 @@
+total 24
+-rwxrwxrwx 1 krypton krypton 17144 Mar  4 20:44 time
+-rwxrwxrwx 1 krypton krypton  2929 Mar  4 20:42 time_pipe.c
+-rwxrwxrwx 1 krypton krypton     0 Mar  4 20:44 time_shm_output.txt
+
+Elapsed time: 0.006351 seconds
